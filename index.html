@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu_Go - Informe Detallado APK Cliente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .app-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .app-info-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .app-info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary h2 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .summary-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .section h2 {
+            color: #333;
+            font-size: 2rem;
+            flex: 1;
+        }
+
+        .image-container {
+            background: #f8f9fa;
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-container:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+        }
+
+        .image-container::before {
+            content: '📱';
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .image-placeholder {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .image-path {
+            font-family: 'Courier New', monospace;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .step {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 0 15px 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .step h3 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .step p {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-menu h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .nav-menu a {
+            display: block;
+            color: #555;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card h4 {
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .toc {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .toc h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .toc-item {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .toc-item:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            transform: translateX(5px);
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 50px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-menu {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navegación -->
+        <div class="nav-menu">
+            <h4>🧭 Navegación</h4>
+            <a href="#resumen">Resumen Ejecutivo</a>
+            <a href="#instalacion">Instalación</a>
+            <a href="#onboarding">Onboarding</a>
+            <a href="#autenticacion">Autenticación</a>
+            <a href="#navegacion">Navegación Principal</a>
+            <a href="#categorias">Categorías</a>
+            <a href="#pedidos">Proceso de Pedidos</a>
+            <a href="#comunicacion">Comunicación</a>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Menu_Go</h1>
+            <p class="subtitle">Informe Detallado - Análisis Completo del APK Cliente</p>
+            
+            <div class="app-info">
+                <div class="app-info-card">
+                    <h4>📱 Aplicación</h4>
+                    <p>Menu_Go</p>
+                </div>
+                <div class="app-info-card">
+                    <h4>🔢 Versión</h4>
+                    <p>1.0</p>
+                </div>
+                <div class="app-info-card">
+                    <h4>📦 Tamaño</h4>
+                    <p>27.5 MB</p>
+                </div>
+                <div class="app-info-card">
+                    <h4>🏪 Plataforma</h4>
+                    <p>Google Play Store</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Contenidos -->
+        <div class="toc" id="toc">
+            <h2>📋 Índice de Contenidos</h2>
+            <div class="toc-grid">
+                <div class="toc-item">
+                    <a href="#resumen">📊 Resumen Ejecutivo</a>
+                </div>
+                <div class="toc-item">
+                    <a href="#instalacion">💾 Instalación y Configuración</a>
+                </div>
+                <div class="toc-item">
+                    <a href="#onboarding">🚀 Proceso de Onboarding</a>
+                </div>
+                <div class="toc-item">
+                    <a href="#autenticacion">🔐 Sistema de Autenticación</a>
+                </div>
+                <div class="toc-item">
+                    <a href="#navegacion">🧭 Navegación Principal</a>
+                </div>
+                <div class="toc-item">
+                    <a href="#categorias">🍽️ Sistema de Categorías</a>
+                </div>
+                <div class="toc-item">
+                    <a href="#pedidos">🛒 Proceso de Pedidos</a>
+                </div>
+                <div class="toc-item">
+                    <a href="#comunicacion">💬 Sistema de Comunicación</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen Ejecutivo -->
+        <div class="summary" id="resumen">
+            <h2>📊 Resumen Ejecutivo</h2>
+            <p>Menu_Go es una aplicación móvil innovadora que conecta a consumidores con emprendedores locales de comida casera. La plataforma facilita el descubrimiento, pedido y entrega de alimentos preparados por amas de casa y pequeños emprendedores gastronómicos del barrio.</p>
+            
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>🎯 Propósito Principal</h3>
+                    <p>Conectar consumidores con emprendedores locales para acceso a comida casera, saludable y accesible, fortaleciendo la economía de barrio.</p>
+                </div>
+                <div class="summary-card">
+                    <h3>👥 Público Objetivo</h3>
+                    <p>Consumidores que buscan comida casera de calidad y emprendedores gastronómicos que desean ampliar su alcance comercial.</p>
+                </div>
+                <div class="summary-card">
+                    <h3>🏢 Modelo de Negocio</h3>
+                    <p>Plataforma de marketplace gastronómico con servicios de delivery gratuito para pedidos de mayor valor, sin monto mínimo.</p>
+                </div>
+                <div class="summary-card">
+                    <h3>📱 Características Clave</h3>
+                    <p>Interfaz intuitiva, categorización de alimentos, geolocalización, sistema de pagos digitales y comunicación directa.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🔍 Hallazgos Principales</h3>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Proceso de onboarding educativo con enfoque en alimentación saludable</li>
+                    <li>Sistema robusto de autenticación con recuperación de contraseña</li>
+                    <li>9 categorías gastronómicas especializadas</li>
+                    <li>Integración con sistemas de pago digital (Yape/Plin)</li>
+                    <li>Sistema de chat directo con emprendedores</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección 1: Instalación -->
+        <div class="section" id="instalacion">
+            <div class="section-header">
+                <div class="section-number">1</div>
+                <h2>💾 Instalación y Configuración Inicial</h2>
+            </div>
+
+            <div class="step">
+                <h3>📱 Descarga desde Play Store</h3>
+                <p>El proceso de instalación inicia accediendo a Google Play Store, buscando "Menu_Go" y procediendo con la descarga de la aplicación versión 1.0 con un tamaño de 27.5 MB. Durante este proceso se ejecutan las verificaciones de seguridad estándar de Android.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Imagen de Instalación</div>
+<div class="image-path">
+<img src="1_Onboarding/1_Instalar_Menu_Go.jpg" alt="Instalar Menu Go"></div>
+                    <p><strong>Descripción:</strong> Pantalla de instalación mostrando el proceso de descarga de Menu_Go desde Play Store, incluyendo la verificación de seguridad y progreso de instalación.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 2: Onboarding -->
+        <div class="section" id="onboarding">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <h2>🚀 Proceso de Onboarding</h2>
+            </div>
+
+            <div class="step">
+                <h3>🔔 Solicitud de Permisos de Notificaciones</h3>
+                <p>Al abrir la aplicación por primera vez, se presenta una pantalla con imagery de ollas de barro con guisos, solicitando permisos para envío de notificaciones push con las opciones "Permitir" y "No permitir".</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Permisos de Notificación</div>
+                    <div class="image-path">
+<img src="1_Onboarding/2_Permitir_menu_go_envie_notificaciones.jpg" alt="Notificacion"></div>
+                    <p><strong>Descripción:</strong> Solicitud de permisos para notificaciones con diseño atractivo de comida tradicional.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🥬 Verdulería Fresca</h3>
+                <p>Primera pantalla educativa del onboarding que destaca la importancia de frutas y verduras frescas para una dieta saludable, enfatizando vitaminas, minerales, fibra y nutrientes esenciales.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Verdulería Fresca</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/1_Onboarding/3_Verduleria_fresca_Onboarding.jpg" alt="Verduleria">
+</div>
+                    <p><strong>Descripción:</strong> Pantalla promocional mostrando la importancia de una alimentación saludable con productos frescos.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🌱 Compras Ecológicas</h3>
+                <p>Segunda pantalla educativa presentando un usuario consumiendo verduras con auriculares, promoviendo la conciencia ambiental y el impacto positivo de las decisiones alimentarias en el planeta.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Compras Ecológicas</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/1_Onboarding/4_Compras_ecologicas_Onboarding.jpg" alt="Compras Eco">
+</div>
+                    <p><strong>Descripción:</strong> Promoción de consumo consciente y ecológico a través de decisiones alimentarias responsables.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>⭐ Mejor Calidad</h3>
+                <p>Tercera pantalla mostrando una emprendedora cocinando, destacando productos de mejor calidad con mantenimiento orgánico a precios accesibles.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Mejor Calidad</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/1_Onboarding/5_Mejor_calidad_Onboarding.jpg" alt="Mejor Calidad">
+</div>
+                    <p><strong>Descripción:</strong> Enfoque en la calidad superior de productos orgánicos a precios competitivos.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🚚 Servicio de Entrega Gratis</h3>
+                <p>Cuarta pantalla presentando el beneficio del delivery gratuito para carritos de mayor valor, sin requerimiento de pago mínimo.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Entrega Gratis</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/1_Onboarding/6_Servicio_Entrega_Gratis_Onboarding.jpg" alt="Entrega Gratis">
+</div>
+                    <p><strong>Descripción:</strong> Promoción del servicio de delivery gratuito como valor agregado de la plataforma.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📍 Configuración de Ubicación</h3>
+                <p>Pantalla de configuración de ubicación para explorar tiendas cercanas con botón "Activar Ubicación".</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Activar Ubicación</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/1_Onboarding/7_Activar_Ubicación.jpg" alt="Activar Ubicacion">
+</div>
+                    <p><strong>Descripción:</strong> Solicitud de permisos de geolocalización para personalizar la experiencia del usuario.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🎯 Permisos de Ubicación del Dispositivo</h3>
+                <p>Diálogo sistema de Android solicitando permisos específicos de ubicación con opciones: "Mientras la app está en uso", "Solo esta vez", "No permitir".</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Permisos de Ubicación</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/1_Onboarding/8_Permitir_Acceso_Ubicacion_Dispostivo.jpg" alt="Permisos Ubicacion">
+</div>
+                    <p><strong>Descripción:</strong> Diálogo nativo de Android para otorgar permisos de acceso a la ubicación del dispositivo.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 3: Autenticación -->
+        <div class="section" id="autenticacion">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <h2>🔐 Sistema de Autenticación</h2>
+            </div>
+
+            <div class="step">
+                <h3>📝 Registro de Usuario</h3>
+                <p>Pantalla principal de registro con campos para correo electrónico, contraseña, nombre, apellido, número celular y código de referido opcional. Incluye aceptación de términos y condiciones.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Registro de Usuario</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/2_Registro_Sesion/41_Inicio_Sesion.jpg" alt="Registro Usuario">
+</div>
+                    <p><strong>Descripción:</strong> Formulario completo de registro con validaciones y términos legales.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🔑 Inicio de Sesión</h3>
+                <p>Interfaz de inicio de sesión con opción "¿Olvidaste tu contraseña?" para usuarios registrados.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Inicio de Sesión</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/3_Sesion_Olvido_Contrasena/41_Menu_Inicio_Sesion.jpg" alt="Inicio Sesion Contra">
+</div>
+                    <p><strong>Descripción:</strong> Pantalla de autenticación con recuperación de contraseña.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🔄 Recuperación de Contraseña - Solicitud</h3>
+                <p>Pantalla para recuperación de contraseña solicitando correo electrónico registrado con botón "Enviar OTP".</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Solicitud OTP</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/3_Sesion_Olvido_Contrasena/42_Menu_Olvidaste_Contrasena.jpg" alt="Recuperacion Contrasena">
+</div>
+                    <p><strong>Descripción:</strong> Formulario para iniciar proceso de recuperación de contraseña mediante OTP.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📧 Notificación Email OTP</h3>
+                <p>Email automático enviado al usuario conteniendo el código OTP válido por 5 minutos para restablecimiento de contraseña.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Email OTP</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/3_Sesion_Olvido_Contrasena/43_Menu_Olvidaste_Contrasena_Verificacion_OTP_Correo.jpg" alt="OTP Email">
+</div>
+                    <p><strong>Descripción:</strong> Correo electrónico con código de verificación OTP y tiempo de validez.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🔢 Verificación de Código OTP</h3>
+                <p>Pantalla para ingreso del código de verificación de 6 dígitos recibido por correo electrónico.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Verificación OTP</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/3_Sesion_Olvido_Contrasena/44_Menu_Olvidaste_Contrasena_Verificacion_Codigo.jpg" alt="Verificacion codigo">
+</div>
+                    <p><strong>Descripción:</strong> Interfaz de verificación con campos para código de 6 dígitos.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 4: Navegación Principal -->
+        <div class="section" id="navegacion">
+            <div class="section-header">
+                <div class="section-number">4</div>
+                <h2>🧭 Navegación Principal</h2>
+            </div>
+
+            <div class="step">
+                <h3>🏠 Menú Inicio</h3>
+                <p>Pantalla principal que presenta la dirección actual del usuario, mapa interactivo con ubicaciones de emprendedores, acceso directo a categorías gastronómicas, sección "Los más elegidos" y "Emprendedores cerca de ti".</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Menú Principal</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/4_Menu/9_Menu_Inicio.jpg" alt="Menu Inicio">
+</div>
+                    <p><strong>Descripción:</strong> Dashboard principal con mapa, categorías y accesos directos a funcionalidades clave.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📂 Menú Categorías</h3>
+                <p>Vista de todas las categorías gastronómicas disponibles organizadas horizontalmente: Criolla, Vegetariana, Pastas, Marina, Oriental, Vegana, Andina, Selva y Fitness.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Menú Categorías</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/4_Menu/10_Menu_Categorias.jpg" alt="Menu Categorias">
+</div>
+                    <p><strong>Descripción:</strong> Interfaz de categorías con diseño horizontal y acceso directo a cada tipo de comida.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🛒 Menú Carrito</h3>
+                <p>Vista del carrito de compras mostrando todos los productos seleccionados con detalles de precio y cantidad.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Carrito de Compras</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/4_Menu/11_Menú_Carrito.jpg" alt="Menu Carrito">
+</div>
+                    <p><strong>Descripción:</strong> Interfaz del carrito con resumen de productos y funciones de checkout.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📋 Menú Historial</h3>
+                <p>Sección de historial de pedidos mostrando estados: cancelados, en curso y completados con información detallada.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Historial de Pedidos</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/4_Menu/11_Menu_Historial_Pedido.jpg" alt="Menu Historial">
+</div>
+                    <p><strong>Descripción:</strong> Lista completa del historial de transacciones y estados de pedidos.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>👤 Menú Cuenta</h3>
+                <p>Sección de gestión de cuenta con opciones: iniciar/registrar sesión, sobre nosotros, contáctanos y ayuda.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Menú de Cuenta</div>
+                    <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/4_Menu/12_Menu_Cuenta.jpg" alt="Menu Cuenta">
+</div>
+                    <p><strong>Descripción:</strong> Panel de configuración de usuario y acceso a información corporativa.</p>
+                </div>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>ℹ️ Sobre Nosotros</h4>
+                    <p>Información corporativa sobre la misión de conectar consumidores con emprendedores locales.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Información Corporativa</div>
+                        <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/4_Menu/13_Menu_SobreNosotros.jpg" alt="Sobre Nosotros">
+</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📞 Contáctanos</h4>
+                    <p>Formulario de contacto con información de ubicación: La Molina, Lima, Perú y datos de contacto.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Información de Contacto</div>
+                        <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/4_Menu/14_Menu_Contactanos.jpg" alt="Informacion Contacto">
+</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>❓ Ayuda</h4>
+                    <p>Información de soporte técnico con canales de comunicación: contacto@appmenugo.com y WhatsApp +51924218509.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Centro de Ayuda</div>
+                        <div class="image-path">
+<img src="file:///C:/Users/Acer/Downloads/InformeMenuGo/4_Menu/15_Menu_Ayuda.jpg" alt="Centro Ayuda">
+</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🗺️ Vista de Mapa General</h3>
+                <p>Vista expandida del mapa que permite visualizar todos los emprendedores disponibles en el área, con función de minimizar accesos directos.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Mapa General</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\16_Explorar_Mapa_General.jpg</div>
+                    <p><strong>Descripción:</strong> Vista completa del mapa con ubicaciones de emprendedores y navegación interactiva.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>⚙️ Menú de Opciones</h3>
+                <p>Menú hamburguesa accesible desde los 3 puntos superiores, presentando opciones: Inicio, Historial, Perfil, Contáctanos, Chats.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Menú de Opciones</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\17_Explorar_Menu_Opciones.jpg</div>
+                    <p><strong>Descripción:</strong> Menú lateral con acceso rápido a todas las funcionalidades principales.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📍 Detalle de Emprendedor en Mapa</h3>
+                <p>Vista detallada emergente al seleccionar un emprendedor en el mapa, mostrando información del establecimiento, certificado de sanidad, horarios y disponibilidad.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Detalle en Mapa</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\18_Explorar_Mapa_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Card informativo con datos del emprendedor y preview de productos disponibles.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 5: Sistema de Categorías -->
+        <div class="section" id="categorias">
+            <div class="section-header">
+                <div class="section-number">5</div>
+                <h2>🍽️ Sistema de Categorías Gastronómicas</h2>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🇵🇪 Comida Criolla</h4>
+                    <p>Categoría especializada en gastronomía tradicional peruana con subcategorías: entradas y ensaladas, platos de fondo, postres.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Criolla</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\19_Explorar_Inicio_Categoria_Criolla.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Criolla</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\32_Explorar_Categoria_Criolla.jpg</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🥗 Comida Vegetariana</h4>
+                    <p>Opciones vegetarianas organizadas en entradas y ensaladas, platos de fondo, y postres.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Vegetariana</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\20_Explorar_Inicio_Categoria_Vegetariana.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Vegetariana</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\33_Explorar_Categoria_Vegetariana.jpg</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🍝 Pastas</h4>
+                    <p>Especialidad en pastas con variedad de preparaciones y acompañamientos.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Pastas</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\21_Explorar_Inicio_Categoria_Pastas.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Pastas</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\34_Explorar_Categoria_Pastas.jpg</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🐟 Comida Marina</h4>
+                    <p>Especialidades del mar con pescados y mariscos frescos.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Marina</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\22_Explorar_Inicio_Categoria_Marina.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Marina</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\35_Explorar_Categoria_Marina.jpg</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🥢 Comida Oriental</h4>
+                    <p>Gastronomía asiática con platos tradicionales y fusión.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Oriental</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\23_Explorar_Inicio_Categoria_Oriental.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Oriental</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\36_Explorar_Categoria_Oriental.jpg</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🌱 Comida Vegana</h4>
+                    <p>Opciones 100% vegetales sin productos de origen animal.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Vegana</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\24_Explorar_Inicio_Categoria_Vegana.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Vegana</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\37_Explorar_Categoria_Vegana.jpg</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🏔️ Comida Andina</h4>
+                    <p>Gastronomía tradicional de la sierra peruana con ingredientes autóctonos.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Andina</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\25_Explorar_Inicio_Categoria_Andina.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Andina</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\38_Explorar_Categoria_Andina.jpg</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🌴 Comida de la Selva</h4>
+                    <p>Especialidades amazónicas con ingredientes únicos de la región selvática.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Selva</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\26_Explorar_Inicio_Categoria_Selva.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Selva</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\39_Explorar_Categoria_Selva.jpg</div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4>💪 Comida Fitness</h4>
+                    <p>Opciones saludables diseñadas para estilos de vida activos y fitness.</p>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Categoría Fitness</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\27_Explorar_Inicio_Categoria_Fitness.jpg</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <div class="image-placeholder">🖼️ Explorar Fitness</div>
+                        <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\40_Explorar_Categoria_Fitness.jpg</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>⭐ Los Más Elegidos</h3>
+                <p>Sección destacada que muestra los platos con mayor popularidad entre los usuarios, con opción "Ver Todo" para acceso completo.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Los Más Elegidos</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\28_Explorar_Inicio_Los_Mas_Elegidos_Ver_Todo.jpg</div>
+                    <p><strong>Descripción:</strong> Showcase de productos más populares con métricas de preferencia de usuarios.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>👥 Emprendedores Cerca de Ti</h3>
+                <p>Lista de emprendedores basada en geolocalización, mostrando proximidad y disponibilidad en tiempo real.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Emprendedores Cercanos</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\29_Explorar_Inicio_Emprendedores_Cerca_De_Ti_Todo.jpg</div>
+                    <p><strong>Descripción:</strong> Lista geolocalizada de emprendedores con información de disponibilidad.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📋 Vista Detalle Desplegado</h3>
+                <p>Vista expandida de un emprendedor mostrando nombre de tienda, certificado de sanidad verificado, dirección, horarios, descripción y catálogo completo de platos con precios.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Detalle Desplegado</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\30_Explorar_Inicio_Emprendedores_Cerca_De_Ti_Detalle_Desplegado.jpg</div>
+                    <p><strong>Descripción:</strong> Vista completa del perfil del emprendedor con toda la información disponible.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📊 Vista Detalle Agrupado</h3>
+                <p>Vista condensada de la información del emprendedor con elementos agrupados para optimizar el espacio en pantalla.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Detalle Agrupado</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\31_Explorar_Inicio_Emprendedores_Cerca_De_Ti_Detalle_Agrupado.jpg</div>
+                    <p><strong>Descripción:</strong> Vista optimizada con información esencial del emprendedor en formato compacto.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 6: Proceso de Pedidos -->
+        <div class="section" id="pedidos">
+            <div class="section-header">
+                <div class="section-number">6</div>
+                <h2>🛒 Proceso Completo de Pedidos</h2>
+            </div>
+
+            <div class="step">
+                <h3>➕ Agregar Productos al Carrito</h3>
+                <p>Funcionalidad de agregar productos desde múltiples puntos de acceso: menú inicio, mapa de emprendedores, categorías, y secciones destacadas. Interface con botón "+" para configurar cantidades.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Agregar al Carrito</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\42_Pedido_Artículo_Tienda_Pedido_Mapa_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Interface de selección de productos con configuración de cantidades.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🛒 Vista del Carrito de Compras</h3>
+                <p>Resumen completo del carrito mostrando productos seleccionados, descripciones, precios, cantidades, total de artículos y botón de pago. Incluye advertencia sobre políticas de cancelación.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Carrito de Compras</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\43_Carrito_Compra_Tienda_Pedido_Mapa_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Vista detallada del carrito con resumen de compra y políticas de cancelación.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🚚 Configuración de Entrega</h3>
+                <p>Pantalla de configuración de opciones de entrega: "Pronto delivery" o "Auto recogida", selección de fecha de recibimiento, dirección de entrega y notas especiales.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Opciones de Entrega</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\44_Pagar_Entrega_Tienda_Pedido_Mapa_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Panel de configuración de modalidades de entrega y programación de recibimiento.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>💳 Pasarela de Pagos</h3>
+                <p>Sistema completo de pagos con detalle de costos: total de artículos, impuestos, cargos de envío, aplicación de cupones de descuento y opciones de pago digital (Yape/Plin).</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Pasarela de Pagos</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\45_Pagar_Billetera_Tienda_Pedido_Mapa_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Interface completa de checkout con desglose de costos y métodos de pago.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>✅ Confirmación de Pedido</h3>
+                <p>Pantalla de confirmación exitosa del pedido con opciones de navegación: "Ir a inicio" e "Ir a pedido" para seguimiento.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Pedido Confirmado</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\46_Confirmar_Pedido_Tienda_Pedido_Mapa_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Confirmación exitosa con opciones de navegación post-compra.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📖 Historial de Pedidos</h3>
+                <p>Vista del historial mostrando pedidos con número de orden, descripción de platos, precios, cantidades, fechas, horas y fotografías de productos.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Historial Completo</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\47_Historial_Pedido_Tienda_Pedido_Mapa_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Lista cronológica de pedidos con información detallada y visual.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🔍 Detalle de Pedido Individual</h3>
+                <p>Vista detallada de pedido específico con número de orden, información del emprendedor, productos, montos, detalles de entrega, método de pago, tracking dinámico y opción de cancelación.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Detalle de Pedido</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\48_Historial_Pedido_Detalle_Tienda_Pedido_Mapa_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Vista completa del pedido con tracking en tiempo real y opciones de gestión.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📧 Notificación Email de Pedido</h3>
+                <p>Confirmación automática por correo electrónico con detalles completos del pedido: número de orden, productos, cantidades, subtotal, impuestos, cargos de delivery y total final.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Email de Confirmación</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\49_Orden_Pedido_Correo_Notificacion.jpg</div>
+                    <p><strong>Descripción:</strong> Comprobante digital enviado al correo del cliente con detalles completos de la transacción.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 7: Sistema de Comunicación -->
+        <div class="section" id="comunicacion">
+            <div class="section-header">
+                <div class="section-number">7</div>
+                <h2>💬 Sistema de Comunicación</h2>
+            </div>
+
+            <div class="step">
+                <h3>💬 Menú de Chats</h3>
+                <p>Acceso al sistema de chat desde el menú principal (3 puntos superiores) para coordinar pagos y comunicación directa con emprendedores.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Acceso a Chats</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\50_Menu_Chat_Emprendedor.jpg</div>
+                    <p><strong>Descripción:</strong> Portal de acceso al sistema de mensajería entre clientes y emprendedores.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>👤 Lista de Chats Disponibles</h3>
+                <p>Interface que muestra la lista de conversaciones activas con emprendedores, representados por iconos de persona para fácil identificación.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Lista de Conversaciones</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\51_Menu_Chat_Emprendedor_Detalle.jpg</div>
+                    <p><strong>Descripción:</strong> Vista de conversaciones activas con emprendedores organizadas por tienda.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📱 Interface de Chat Individual</h3>
+                <p>Pantalla de conversación individual con emprendedor incluyendo funcionalidad de adjuntar imágenes de comprobantes de pago (Yape/Plin) y chat de texto en tiempo real.</p>
+                
+                <div class="image-container">
+                    <div class="image-placeholder">🖼️ Chat Individual</div>
+                    <div class="image-path">C:\Users\Acer\OneDrive - Ibarraco\Documentos\Ibarracogroup\MVP\Menu_GO\Informe Detallado\apk cliente\52_Menu_Chat_Emprendedor_Detalle_Tienda.jpg</div>
+                    <p><strong>Descripción:</strong> Interface de mensajería con funcionalidad multimedia para coordinar pagos y comunicación.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Análisis Técnico -->
+        <div class="section" id="analisis">
+            <div class="section-header">
+                <div class="section-number">8</div>
+                <h2>🔧 Análisis Técnico y Funcional</h2>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📱 Arquitectura de la App</h4>
+                    <p><strong>Navegación:</strong> Sistema de tabs con 4 secciones principales: Inicio, Categorías, Carrito e Historial.</p>
+                    <p><strong>Menú Hamburguesa:</strong> Acceso secundario mediante 3 puntos con opciones adicionales.</p>
+                    <p><strong>Geolocalización:</strong> Integración nativa con GPS para localizar emprendedores cercanos.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🔐 Seguridad y Autenticación</h4>
+                    <p><strong>Registro Completo:</strong> Validación de email, teléfono y datos personales.</p>
+                    <p><strong>Recuperación OTP:</strong> Sistema seguro de verificación en dos pasos.</p>
+                    <p><strong>Términos Legales:</strong> Aceptación obligatoria de términos y condiciones.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>💰 Sistema de Pagos</h4>
+                    <p><strong>Billeteras Digitales:</strong> Integración con Yape y Plin.</p>
+                    <p><strong>Cálculo Automático:</strong> Subtotales, impuestos y cargos de envío.</p>
+                    <p><strong>Cupones:</strong> Sistema de descuentos aplicables.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📊 Experiencia de Usuario</h4>
+                    <p><strong>Onboarding Educativo:</strong> 4 pantallas informativas sobre alimentación saludable.</p>
+                    <p><strong>Búsqueda Intuitiva:</strong> Múltiples métodos de descubrimiento de productos.</p>
+                    <p><strong>Feedback Visual:</strong> Confirmaciones y estados de pedido claramente comunicados.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>⚡ Flujos de Usuario Identificados</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong>Descubrimiento</strong><br>
+                        Inicio → Mapa → Emprendedor
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong>Por Categoría</strong><br>
+                        Categorías → Tipo → Productos
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong>Populares</strong><br>
+                        Inicio → Más Elegidos → Producto
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong>Proximidad</strong><br>
+                        Inicio → Cercanos → Emprendedor
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conclusiones y Recomendaciones -->
+        <div class="section" id="conclusiones">
+            <div class="section-header">
+                <div class="section-number">9</div>
+                <h2>📋 Conclusiones y Recomendaciones</h2>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>✅ Fortalezas Identificadas</h3>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Interface intuitiva y amigable</li>
+                        <li>Proceso de onboarding educativo</li>
+                        <li>Sistema robusto de autenticación</li>
+                        <li>Múltiples métodos de descubrimiento</li>
+                        <li>Integración con pagos digitales</li>
+                        <li>Comunicación directa con emprendedores</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>🎯 Oportunidades de Mejora</h3>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Optimización de tiempos de carga</li>
+                        <li>Notificaciones en tiempo real</li>
+                        <li>Sistema de calificaciones y reviews</li>
+                        <li>Funcionalidad de favoritos</li>
+                        <li>Filtros avanzados de búsqueda</li>
+                        <li>Programa de fidelización</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>📊 Métricas Clave a Monitorear</h3>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Tasa de conversión de registro</li>
+                        <li>Tiempo en onboarding</li>
+                        <li>Tasa de abandono del carrito</li>
+                        <li>Frecuencia de pedidos por usuario</li>
+                        <li>Tiempo promedio de entrega</li>
+                        <li>Satisfacción del cliente</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>🚀 Recomendaciones Estratégicas</h3>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Implementar push notifications inteligentes</li>
+                        <li>Desarrollar sistema de recomendaciones</li>
+                        <li>Crear programa de referidos</li>
+                        <li>Optimizar SEO y ASO</li>
+                        <li>Implementar analytics avanzados</li>
+                        <li>Expandir métodos de pago</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información Técnica -->
+        <div class="section" id="tecnica">
+            <div class="section-header">
+                <div class="section-number">10</div>
+                <h2>⚙️ Especificaciones Técnicas</h2>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📱 Información de la Aplicación</h4>
+                    <p><strong>Nombre:</strong> Menu_Go</p>
+                    <p><strong>Versión:</strong> 1.0</p>
+                    <p><strong>Tamaño:</strong> 27.5 MB</p>
+                    <p><strong>Plataforma:</strong> Android (Google Play Store)</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🔧 Funcionalidades Core</h4>
+                    <p><strong>Geolocalización:</strong> GPS nativo</p>
+                    <p><strong>Notificaciones:</strong> Push notifications</p>
+                    <p><strong>Pagos:</strong> Yape, Plin</p>
+                    <p><strong>Comunicación:</strong> Chat en tiempo real</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📞 Información de Contacto</h4>
+                    <p><strong>Email General:</strong> contacto@appmenugo.com</p>
+                    <p><strong>Soporte:</strong> soporte@appmenugo.com</p>
+                    <p><strong>WhatsApp:</strong> +51924218509</p>
+                    <p><strong>Website:</strong> https://appmenugo.com</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📍 Ubicación Corporativa</h4>
+                    <p><strong>Distrito:</strong> La Molina</p>
+                    <p><strong>Ciudad:</strong> Lima, Perú</p>
+                    <p><strong>Código Postal:</strong> 00051</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3 style="color: #667eea; margin-bottom: 20px;">📊 Resumen del Análisis</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">
+                Menu_Go representa una solución integral para el marketplace gastronómico local, 
+                con un enfoque en la experiencia del usuario y la facilidad de uso. 
+                La aplicación demuestra un diseño thoughtful que prioriza la educación del usuario 
+                sobre alimentación saludable mientras facilita transacciones comerciales efectivas.
+            </p>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #eee;">
+                <p style="color: #666; font-size: 0.9rem;">
+                    <strong>Documento generado:</strong> Agosto 2025 | 
+                    <strong>Versión analizada:</strong> Menu_Go v1.0 | 
+                    <strong>Total de pantallas analizadas:</strong> 52 interfaces
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Efecto de aparición al hacer scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Aplicar efecto a todas las secciones
+        document.querySelectorAll('.section, .summary, .toc').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        // Efecto hover para imágenes
+        document.querySelectorAll('.image-container').forEach(container => {
+            container.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.boxShadow = '0 10px 30px rgba(102, 126, 234, 0.2)';
+            });
+            
+            container.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Contador de imágenes
+        const imageContainers = document.querySelectorAll('.image-container');
+        console.log(`📊 Total de espacios para imágenes preparados: ${imageContainers.length}`);
+
+        // Validación de rutas de imágenes
+        const imagePaths = document.querySelectorAll('.image-path');
+        let pathsReady = 0;
+        imagePaths.forEach(path => {
+            if (path.textContent.includes('.jpg')) {
+                pathsReady++;
+            }
+        });
+        console.log(`✅ Rutas de imágenes configuradas: ${pathsReady}/${imagePaths.length}`);
+    </script>
+</body>
+</html>
